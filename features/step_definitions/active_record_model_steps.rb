@@ -21,10 +21,19 @@ Given /^a (.*?) exists:$/ do |model_name, table|
 end
 
 Given /^that (.*?) belongs to that (.*?)$/ do |child, parent|
-  @models[child].send("#{parent.underscore}=", @models[parent])
+  @models[parent].send(child.underscore.pluralize).send(:push, @models[child])
+
+  #@models[child].send("#{parent.underscore}=", @models[parent])
 end
 
 When /^I save the (.*?)$/ do |model_name|
   @models[model_name].save!
 end
 
+When /^I change the (.*?)'s name to "(.*?)"$/ do |model_name, new_name|
+  @models[model_name].name = new_name
+end
+
+Given /^(.*?) has many (.*?)$/ do |parent, child|
+  parent.constantize.send(:has_many, child.underscore)
+end

@@ -9,6 +9,7 @@ module CachedBelongsTo
 
       belongs_to(*args)
       create_cached_belongs_to_child_hooks(caches, klass)
+      create_cached_belongs_to_parent_hooks(caches, klass)
     end
 
     def create_cached_belongs_to_child_hooks(*args, caches, klass)
@@ -20,6 +21,23 @@ module CachedBelongsTo
       end
 
       before_save method_name
+    end
+
+    def create_cached_belongs_to_parent_hooks(caches, parent_class_name)
+      method_name = "cached_belongs_to_#{parent_class_name}_after_save".to_sym
+      has_many_association = self.name.underscore.pluralize.to_sym
+      parent_class = parent_class_name.to_s.camelize.constantize
+
+      parent_class.send(:define_method, method_name) do
+        send(has_many_association).each do |child|
+          caches.each do |attr|
+            child.send(:cached_belongs_to_book_after_save)
+            child.save
+          end
+        end
+      end
+
+      parent_class.send(:before_save, method_name)
     end
   end
 end

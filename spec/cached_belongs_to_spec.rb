@@ -13,6 +13,10 @@ describe CachedBelongsTo do
     klass
   end
 
+  before do
+    author_class
+  end
+
   it "Adds the cached_belongs_to class method to ActiveRecord models" do
     book_class.should respond_to(:cached_belongs_to)
   end
@@ -26,8 +30,12 @@ describe CachedBelongsTo do
       book_class.new.should respond_to(:author)
     end
 
-    it "creates the cached_belongs_to_book_after_save" do
+    it "defines the cached_belongs_to_book_after_save" do
       book_class.new.should respond_to(:cached_belongs_to_book_after_save)
+    end
+
+    it "defines the cached_belongs_to_author_after_save" do
+      author_class.new.should respond_to(:cached_belongs_to_author_after_save)
     end
   end
 
@@ -45,6 +53,24 @@ describe CachedBelongsTo do
 
       book.cached_belongs_to_book_after_save
       book.author_name.should eq author.name
+    end
+  end
+
+  context "cached_belongs_to_author_after_save" do
+    before do
+      book_class.send(:cached_belongs_to, :author, { :caches => :name })
+      author_class.send(:has_many, :books)
+    end
+
+    it "assigns all the cached values from the parent association to the cached attributes" do
+      author = author_class.new :name => 'John Mellencamp'
+      book   = book_class.new
+
+      author.stub(:books).and_return([ book ])
+      book.should_receive(:cached_belongs_to_book_after_save)
+      book.should_receive :save
+
+      author.cached_belongs_to_author_after_save
     end
   end
 end

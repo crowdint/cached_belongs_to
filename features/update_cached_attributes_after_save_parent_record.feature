@@ -1,4 +1,4 @@
-Feature: Update cached attributes after saving the child record
+Feature: Update cached attributes after saving the parent record
 
   Scenario:
     Given model "Author" exists with attributes:
@@ -16,5 +16,6 @@ Feature: Update cached attributes after saving the child record
     And a Book exists:
       | title | Treasure Island |
     And that Book belongs to that Author
-    When I save the Book
+    When I change the Author's name to "Deeprak Chopa"
+    And I save the Author
     Then Book's author name should be "John Mellencamp"
