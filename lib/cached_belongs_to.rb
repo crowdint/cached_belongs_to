@@ -5,14 +5,13 @@ module CachedBelongsTo
   module ClassMethods
     def cached_belongs_to(*args)
       caches = Array(args[1].delete(:caches))
+      klass  = args[0]
+
       belongs_to(*args)
-      create_cached_belongs_to_child_hooks(*args, caches)
+      create_cached_belongs_to_child_hooks(caches, klass)
     end
 
-    def create_cached_belongs_to_child_hooks(*args, caches)
-      klass = args[0]
-      cached_attributes = args[1][:caches]
-
+    def create_cached_belongs_to_child_hooks(*args, caches, klass)
       method_name = "cached_belongs_to_#{name.underscore}_after_save".to_sym
       define_method method_name do
         caches.each do |attr|
