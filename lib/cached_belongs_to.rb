@@ -6,10 +6,10 @@ module CachedBelongsTo
     def cached_belongs_to(*args)
       caches = Array(args[1].delete(:caches))
       belongs_to(*args)
-      create_cached_belongs_to_hooks(*args, caches)
+      create_cached_belongs_to_child_hooks(*args, caches)
     end
 
-    def create_cached_belongs_to_hooks(*args, caches)
+    def create_cached_belongs_to_child_hooks(*args, caches)
       klass = args[0]
       cached_attributes = args[1][:caches]
 
