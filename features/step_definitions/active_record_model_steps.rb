@@ -1,6 +1,6 @@
 Given /^model "(.*?)" exists with attributes:$/ do |model_class_name, attributes|
   klass = Class.new(ActiveRecord::Base)
-  Object.const_set model_class_name, klass
+  suppress_warnings { Object.const_set model_class_name, klass }
 
   ActiveRecord::Schema.define(:version => 0) do
     create_table model_class_name.tableize, :force => true do |t|

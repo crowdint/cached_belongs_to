@@ -1,6 +1,8 @@
 require 'cached_belongs_to'
 require 'logger'
 
+require 'support/warnings'
+
 ActiveRecord::Migration.verbose = false
 ActiveRecord::Base.logger = Logger.new("test.log")
 ActiveRecord::Base.establish_connection adapter: "sqlite3", database: ":memory:"

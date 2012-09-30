@@ -1,0 +1,4 @@
+<%
+std_opts = "--format #{ENV['CUCUMBER_FORMAT'] || 'progress'}  --strict --tags ~@wip --require features/step_definitions --require features/support"
+%>
+default: <%= std_opts %> --drb --color features

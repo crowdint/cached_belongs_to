@@ -3,13 +3,13 @@ require 'spec_helper'
 describe CachedBelongsTo do
   let(:book_class) do
     klass = Class.new(ActiveRecord::Base)
-    Object.const_set 'Book', klass
+    suppress_warnings { Object.const_set 'Book', klass }
     klass
   end
 
   let(:author_class) do
     klass = Class.new(ActiveRecord::Base)
-    Object.const_set 'Author', klass
+    suppress_warnings { Object.const_set 'Author', klass }
     klass
   end
 
