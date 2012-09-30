@@ -16,6 +16,9 @@ Gem::Specification.new do |gem|
   gem.version       = CachedBelongsTo::VERSION
 
   gem.add_dependency 'activerecord', '~> 3.2'
-  gem.add_dependency 'sqlite3'
+
+  gem.add_development_dependency 'autotest'
+  gem.add_development_dependency 'autotest-growl'
+  gem.add_development_dependency 'sqlite3'
   gem.add_development_dependency 'rspec'
 end
