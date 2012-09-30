@@ -14,4 +14,7 @@ Gem::Specification.new do |gem|
   gem.name          = "cached_belongs_to"
   gem.require_paths = ["lib"]
   gem.version       = CachedBelongsTo::VERSION
+
+  gem.add_dependency 'activerecord', '~> 3.2'
+  gem.add_development_dependency 'rspec'
 end
