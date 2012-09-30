@@ -13,13 +13,14 @@ module CachedBelongsTo
       klass = args[0]
       cached_attributes = args[1][:caches]
 
-
-      define_method "cached_belongs_to_#{name.underscore}_after_save" do
+      method_name = "cached_belongs_to_#{name.underscore}_after_save".to_sym
+      define_method method_name do
         caches.each do |attr|
           send("#{klass}_#{attr}=", send(klass).send(attr)) if send(klass)
         end
-        save
       end
+
+      before_save method_name
     end
   end
 end

@@ -42,7 +42,6 @@ describe CachedBelongsTo do
       book.author = author
 
       book.stub(:author).and_return author
-      book.should_receive :save
 
       book.cached_belongs_to_book_after_save
       book.author_name.should eq author.name

@@ -1,5 +1,6 @@
 require 'cached_belongs_to'
 
+ActiveRecord::Migration.verbose = false
 ActiveRecord::Base.establish_connection adapter: "sqlite3", database: ":memory:"
 
 ActiveRecord::Schema.define(:version => 0) do
