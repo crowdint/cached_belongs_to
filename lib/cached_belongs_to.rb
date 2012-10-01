@@ -3,6 +3,17 @@ require 'active_record'
 
 module CachedBelongsTo
   module ClassMethods
+    #
+    # Creates a many to one association between two models. Works
+    # exactly as ActiveRecord's belongs_to, except that it adds
+    # caching to it.
+    #
+    # Usage:
+    #
+    #   class Book < ActiveRecord::Base
+    #     cached_belongs_to :author, :caches => :name
+    #   end
+    #
     def cached_belongs_to(*args)
       caches = Array(args[1].delete(:caches))
       klass  = args[0]
@@ -13,6 +24,7 @@ module CachedBelongsTo
       create_cached_belongs_to_parent_callbacks(caches, klass, children_callback_name)
     end
 
+    private
     def create_cached_belongs_to_child_callbacks(caches, klass, children_callback_name)
       define_method children_callback_name do
         caches.each do |attr|
