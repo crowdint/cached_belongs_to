@@ -1,4 +1,4 @@
-# CachedBelongsTo
+# Cached belongs_to
 
 [![Build Status](https://secure.travis-ci.org/crowdint/cached_belongs_to.png)](http://travis-ci.org/crowdint/cached_belongs_to)
 
