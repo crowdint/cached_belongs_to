@@ -27,7 +27,10 @@ Or install it yourself as:
 
 ## Usage
 
-Just use it as you would use `belongs_to`. Add the `:caches` option to specify the
+Currently, it works with a traditional `belongs_to` - `has_many` associations
+between two models.
+
+Just use it as you would normally use `belongs_to`. Add the `:caches` option to specify the
 fields in the association that you want to cache.
 
     #
