@@ -30,16 +30,16 @@ describe CachedBelongsTo do
       book_class.new.should respond_to(:author)
     end
 
-    it "defines the cached_belongs_to_book_after_save" do
-      book_class.new.should respond_to(:cached_belongs_to_book_after_save)
+    it "defines the cached_belongs_to_book_callback" do
+      book_class.new.should respond_to(:cached_belongs_to_book_callback)
     end
 
-    it "defines the cached_belongs_to_author_after_save" do
-      author_class.new.should respond_to(:cached_belongs_to_author_after_save)
+    it "defines the cached_belongs_to_author_callback" do
+      author_class.new.should respond_to(:cached_belongs_to_author_callback)
     end
   end
 
-  context "cached_belongs_to_book_after_save" do
+  context "cached_belongs_to_book_callback" do
     before do
       book_class.send(:cached_belongs_to, :author, { :caches => :name })
     end
@@ -51,12 +51,12 @@ describe CachedBelongsTo do
 
       book.stub(:author).and_return author
 
-      book.cached_belongs_to_book_after_save
+      book.cached_belongs_to_book_callback
       book.author_name.should eq author.name
     end
   end
 
-  context "cached_belongs_to_author_after_save" do
+  context "cached_belongs_to_author_callback" do
     before do
       book_class.send(:cached_belongs_to, :author, { :caches => :name })
       author_class.send(:has_many, :books)
@@ -67,10 +67,10 @@ describe CachedBelongsTo do
       book   = book_class.new
 
       author.stub_chain(:books, :reload).and_return([ book ])
-      book.should_receive(:cached_belongs_to_book_after_save)
+      book.should_receive(:cached_belongs_to_book_callback)
       book.should_receive :save
 
-      author.cached_belongs_to_author_after_save
+      author.cached_belongs_to_author_callback
     end
   end
 end
