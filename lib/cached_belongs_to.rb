@@ -13,7 +13,7 @@ module CachedBelongsTo
       create_cached_belongs_to_parent_callbacks(caches, klass, children_callback_name)
     end
 
-    def create_cached_belongs_to_child_callbacks(*args, caches, klass, children_callback_name)
+    def create_cached_belongs_to_child_callbacks(caches, klass, children_callback_name)
       define_method children_callback_name do
         caches.each do |attr|
           send("#{klass}_#{attr}=", send(klass).send(attr)) if send(klass)
