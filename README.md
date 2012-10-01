@@ -32,13 +32,17 @@ fields in the association that you want to cache.
 
     #
     # table: authors
-    #
-    # name:string
+    #   name:string
     #
     class Author
       has_many :books
     end
 
+    #
+    # table: books
+    #   author_id:integer
+    #   author_name:string
+    #
     class Book
       cached_belongs_to :author, :caches => :name
     end
