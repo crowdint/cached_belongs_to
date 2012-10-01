@@ -18,4 +18,4 @@ Feature: Update cached attributes after saving the parent record
     And that Book belongs to that Author
     When I change the Author's name to "Deeprak Chopa"
     And I save the Author
-    Then Book's author name should be "John Mellencamp"
+    Then Book's author name should be "Deeprak Chopa"

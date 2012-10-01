@@ -66,7 +66,7 @@ describe CachedBelongsTo do
       author = author_class.new :name => 'John Mellencamp'
       book   = book_class.new
 
-      author.stub(:books).and_return([ book ])
+      author.stub_chain(:books, :reload).and_return([ book ])
       book.should_receive(:cached_belongs_to_book_after_save)
       book.should_receive :save
 
