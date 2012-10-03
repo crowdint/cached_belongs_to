@@ -18,10 +18,10 @@ module CachedBelongsTo
       caches = Array(args[1].delete(:caches))
       klass  = args[0]
 
-      belongs_to(*args)
+      association = belongs_to(*args)
       children_callback_name = "cached_belongs_to_#{name.underscore}_callback".to_sym
       create_cached_belongs_to_child_callbacks(caches, klass, children_callback_name)
-      create_cached_belongs_to_parent_callbacks(caches, klass, children_callback_name)
+      create_cached_belongs_to_parent_callbacks(caches, klass, children_callback_name, association)
     end
 
     private
@@ -35,10 +35,11 @@ module CachedBelongsTo
       before_save children_callback_name
     end
 
-    def create_cached_belongs_to_parent_callbacks(caches, parent_class_name, children_callback_name)
+    def create_cached_belongs_to_parent_callbacks(caches, parent_class_name, children_callback_name, association)
       method_name = "cached_belongs_to_#{parent_class_name}_callback".to_sym
-      has_many_association = self.name.underscore.pluralize.to_sym
-      parent_class = parent_class_name.to_s.camelize.constantize
+      has_many_association = self.name.demodulize.underscore.pluralize.to_sym
+      # What is this? I don't even...
+      parent_class = association.klass.name.constantize
 
       parent_class.send(:define_method, method_name) do
         send(has_many_association).reload.each do |child|
