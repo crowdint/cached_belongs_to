@@ -19,7 +19,7 @@ module CachedBelongsTo
       klass  = args[0]
 
       association = belongs_to(*args)
-      children_callback_name = "cached_belongs_to_#{name.underscore}_callback".to_sym
+      children_callback_name = "cached_belongs_to_#{name.demodulize.underscore}_callback".to_sym
       create_cached_belongs_to_child_callbacks(caches, klass, children_callback_name)
       create_cached_belongs_to_parent_callbacks(caches, klass, children_callback_name, association)
     end

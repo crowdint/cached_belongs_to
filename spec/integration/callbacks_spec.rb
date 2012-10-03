@@ -1,18 +1,21 @@
 require 'spec_helper'
 
+module Rankat
+  class Author < ActiveRecord::Base
+    has_many :books
+  end
+
+  class Book < ActiveRecord::Base
+    cached_belongs_to :author, :caches => :name
+  end
+end
+
 describe "Callbacks" do
   before do
-    klass = Class.new(ActiveRecord::Base)
-    suppress_warnings { Object.const_set 'Author', klass }
-
-    klass = Class.new(ActiveRecord::Base)
-    suppress_warnings { Object.const_set 'Book', klass }
-
-    Book.send(:cached_belongs_to, :author, :caches => :name)
-    Author.send(:has_many, :books)
-
-    @author = Author.create :name => 'John Mellencamp'
-    @book = Book.create :title => 'Treasure Island'
+    @author = Rankat::Author.create :name => 'John Mellencamp'
+    @book = Rankat::Book.new :title => 'Treasure Island'
+    @book.author = @author
+    @book.save!
 
     @author.books << @book
   end
