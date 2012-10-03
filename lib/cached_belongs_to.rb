@@ -41,7 +41,7 @@ module CachedBelongsTo
 
     def create_cached_belongs_to_parent_callbacks(caches, association)
       parent_class_name = association.name
-      method_name = "cached_belongs_to_#{parent_class_name}_callback".to_sym
+      method_name = "cached_belongs_to_#{parent_class_name}_parent_callback".to_sym
       has_many_association = self.name.demodulize.underscore.pluralize.to_sym
       children_callback_name = cached_belongs_to_child_callback_name(association)
       # What is this? I don't even...

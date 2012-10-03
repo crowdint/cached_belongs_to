@@ -35,7 +35,7 @@ describe CachedBelongsTo do
     end
 
     specify do
-      author_class.new.should respond_to(:cached_belongs_to_author_callback)
+      author_class.new.should respond_to(:cached_belongs_to_author_parent_callback)
     end
   end
 
@@ -56,7 +56,7 @@ describe CachedBelongsTo do
     end
   end
 
-  context "cached_belongs_to_author_callback" do
+  context "cached_belongs_to_author_parent_callback" do
     before do
       book_class.send(:cached_belongs_to, :author, { :caches => :name })
       author_class.send(:has_many, :books)
@@ -70,7 +70,7 @@ describe CachedBelongsTo do
       book.should_receive(:cached_belongs_to_author_child_callback)
       book.should_receive :save
 
-      author.cached_belongs_to_author_callback
+      author.cached_belongs_to_author_parent_callback
     end
   end
 end
